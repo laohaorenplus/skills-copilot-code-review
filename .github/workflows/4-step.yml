@@ -136,4 +136,3 @@ jobs:
     with:
       issue-url: ${{ needs.find_exercise.outputs.issue-url }}
       exercise-title: "GitHub Copilot Code Review"
-      update-readme-with-congratulations: false
