@@ -617,6 +617,9 @@ footer {
   position: absolute;
   top: 10px;
   right: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 #user-status {
@@ -666,9 +669,319 @@ footer {
 }
 
 .announcement-banner {
-  background-color: var(--success);
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
   color: white;
-  text-align: center;
-  padding: 15px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 5px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  animation: slide-down 0.35s ease;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.announcement-banner-hide {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.announcement-banner-text {
+  flex: 1;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.announcement-banner-meta {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+.announcement-dismiss {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.announcement-dismiss:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+@keyframes slide-down {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Announcements management modal */
+.announcements-modal-content {
+  max-width: 620px;
+  width: 95%;
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.announcements-modal-content h3 {
+  color: var(--primary);
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  padding-right: 24px;
+}
+
+#announcements-list-section {
+  margin-bottom: 20px;
+}
+
+.announcements-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.announcement-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--surface);
+  transition: box-shadow 0.2s;
+}
+
+.announcement-item:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.09);
+}
+
+.announcement-item--expired {
+  background: #fafafa;
+  opacity: 0.7;
+}
+
+.announcement-item-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.announcement-item-message {
+  margin: 6px 0 8px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.announcement-item-dates {
+  display: flex;
+  gap: 16px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.announcement-status-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.68rem;
   font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.announcement-status-badge--active {
+  background: var(--success-light);
+  color: var(--success);
+}
+
+.announcement-status-badge--upcoming {
+  background: var(--info-light);
+  color: var(--info);
+}
+
+.announcement-status-badge--expired {
+  background: #f0f0f0;
+  color: #888;
+}
+
+.announcement-item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn-edit {
+  background: var(--primary-light);
+  color: white;
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  border-radius: 4px;
+}
+
+.btn-edit:hover {
+  background: var(--primary);
+}
+
+.btn-delete {
+  background: var(--error);
+  color: white;
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  border-radius: 4px;
+}
+
+.btn-delete:hover {
+  background: #b71c1c;
+}
+
+.announcements-empty {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  padding: 14px;
+  background: var(--background);
+  border-radius: 6px;
+  border: 1px dashed var(--border);
+}
+
+.announcements-loading,
+.announcements-error {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  padding: 14px;
+  list-style: none;
+}
+
+/* Announcement form */
+#announcement-form-section {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+
+#announcement-form-section h4 {
+  color: var(--primary);
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+
+.announcement-dates {
+  display: flex;
+  gap: 12px;
+}
+
+.announcement-dates .form-group {
+  flex: 1;
+}
+
+.optional-mark {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: normal;
+}
+
+.required-mark {
+  color: var(--error);
+}
+
+.form-error {
+  color: var(--error);
+  font-size: 0.82rem;
+  margin-top: 6px;
+  padding: 6px 10px;
+  background: var(--error-light);
+  border-radius: 4px;
+  border: 1px solid rgba(198, 40, 40, 0.2);
+}
+
+.announcement-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-secondary {
+  background: var(--background);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+/* Manage announcements header button */
+#announcement-controls {
+  margin-right: 10px;
+}
+
+#manage-announcements-button {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+#manage-announcements-button:hover {
+  background-color: rgba(255, 255, 255, 0.28);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .announcement-dates {
+    flex-direction: column;
+  }
+  .announcement-item-actions {
+    flex-direction: row;
+  }
+}
+
+/* Form group used by modals */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: var(--surface);
+  color: var(--text-primary);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 2px rgba(83, 75, 174, 0.15);
 }
